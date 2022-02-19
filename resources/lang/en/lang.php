@@ -2,6 +2,7 @@
 <?php
 
 return [
+    'actions' => 'Actions',
     'home' => 'Home',
     'dashboard' => 'Dashboard',
     'welcome' => 'Welcome to our application!',
@@ -70,4 +71,16 @@ return [
     'delete_table' => 'Delete Table',
     'table_code' => 'Code',
     'table_name' => 'Name',
+    'customers' => 'Customers',
+    'customer' => 'Customer',
+    'customers_list' => 'Customers List',
+    'add_customer' => 'Add Customer',
+    'edit_customer' => 'Edit Customer',
+    'delete_customer' => 'Delete Customer',
+    'customer_added' => 'Customer Added Successfully',
+    'customer_updated' => 'Customer Updated Successfully',
+    'customer_deleted' => 'Customer Deleted Successfully',
+    'gender' => 'Gender',
+    'phone' => 'Phone Number',
+    'full_name' => 'Full Name',
 ];

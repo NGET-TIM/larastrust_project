@@ -119,12 +119,22 @@ class Pos extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PosRequest $request)
+    public function store(Request $request)
     {
         
         $this->data['customer'] = $request->customer;
         if (!empty($request->customer)) {
-            return back()->with('success', 'sale added successfully');
+            $data = [
+                'customer_id' => $request->customer,
+                'reference_no' => "POS/Reference",
+                'table_id' => $request->select_table,
+                'grand_total' => 250,
+                'created_at' => $request->date,
+                'updated_at' => $request->date,
+            ];
+            if(DB::table('suspend')->insert($data)) {
+                return back()->with('success', 'sale added successfully');
+            }
         } 
         else {
             return back()->with('fail', 'Something went wrong');

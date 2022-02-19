@@ -12,7 +12,7 @@
         color: #14a7b4 !important;
     }
 </style>
-<div class="modal fade" id="modal_add_table" tabindex="-1" aria-labelledby="add_table" data-backdrop="static" aria-hidden="true">
+<div class="modal fade" id="modal_edit_table" tabindex="-1" aria-labelledby="edit_table" data-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -21,19 +21,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{route('setting.table.store')}}" method="post" enctype="multipart/form-data" id="form">
+            <form action="{{route('setting.table.update')}}" method="post" enctype="multipart/form-data" id="form">
                 @csrf
-                
+                <input type="text" name="table_id" id="table_id" value="{{ $table->id }}" class="form-control">
                 
                 <div class="modal-body">
                     <div class="form-group">
                         {!! Form::label('code',  __('lang.table_code') ) !!}
-                        <input type="text" name="code" id="code" class="form-control">
+                        <input type="text" name="code" id="code" value="{{ $table->code }}" class="form-control">
                         <span class="text-danger error-text code_error"></span>
                     </div>
                     <div class="form-group">
                         {!! Form::label('name',  __('lang.table_name') ) !!}
-                        <input type="text" name="name" id="name" class="form-control">
+                        <input type="text" name="name" id="name" value="{{ $table->name }}" class="form-control">
                         <span class="text-danger error-text name_error"></span>
                     </div>
                 </div>
@@ -63,10 +63,11 @@
             }
          });
 
-        $('#form').on('submit', function(e){
+         $('#form').on('submit', function(e){
             e.preventDefault();
             var $this_btn = $(this).find('.add_table');
             var form = this;
+            $(form).find('span.error-text').text('');
             $.ajax({
                 url:$(form).attr('action'),
                 method:$(form).attr('method'),
@@ -78,7 +79,6 @@
                     $this_btn.find('i').addClass('fa-spinner animate_icon').animate('2000', function() {
                         $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
                     });  
-                    $(form).find('span.error-text').text('');
                 },
                 success:function(data){
                     if(data.error == 'fail'){
@@ -109,6 +109,7 @@
                         }).then((result) => {
                             $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
                             $('#list_table').DataTable().ajax.reload(null, false);
+                            $('#modal_edit_table').modal('hide');
                         });
                     }
                 }

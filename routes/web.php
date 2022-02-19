@@ -12,6 +12,7 @@ use App\Http\Controllers\Purchase\Purchase;
 use App\Http\Controllers\Category\Categorys;
 use App\Http\Controllers\Dashboard\Dashboard;
 use Laratrust\Http\Controllers\RolesController;
+use App\Http\Controllers\Customer\CustomerController;
 use Laratrust\Http\Controllers\PermissionsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -115,10 +116,17 @@ Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function() {
         Route::get('/setting/tables', [Setting::class, 'table_index'])->name('setting.table.index');
         Route::get('/setting/create_table', [Setting::class, 'create_table'])->name('setting.table.create');
         Route::post('/setting/add_table', [Setting::class, 'store_table'])->name('setting.table.store');
+        Route::get('/setting/edit_table', [Setting::class, 'edit_table'])->name('setting.table.edit');
+        Route::post('/setting/update_table', [Setting::class, 'update_table'])->name('setting.table.update');
         Route::get('/setting/list_table', [Setting::class, 'list_table'])->name('setting.table_list');
         Route::get('/setting/get_table', [Setting::class, 'getTableById'])->name('setting.table.get_table');
+        Route::get('/setting/delete_table', [Setting::class, 'deleteTable'])->name('setting.table.delete');
 
-
+        # customer 
+        Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+        Route::get('/customer/show', [CustomerController::class, 'show'])->name('customer.list');
+        Route::get('/customer/add', [CustomerController::class, 'create'])->name('customer.add');
+        Route::post('/customer/store', [CustomerController::class, 'store'])->name('customer.store');
 });
 
 

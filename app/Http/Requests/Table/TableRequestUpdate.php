@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests\Table;
 
+use Illuminate\Validation\Rule;
+use App\Models\Table\TableModel;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
-class TableRequest extends FormRequest
+class TableRequestUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,20 +26,26 @@ class TableRequest extends FormRequest
      */
     public function rules()
     {
+        $table = new TableModel();
         return [
-            'code' => [
-                'required',
-                'min:3',
-                'max:8',
-                'alpha_dash',
-                'unique:table,code'
-            ],
+            // 'code' => [
+            //     'required',
+            //     'min:3',
+            //     'max:8',
+            //     'alpha_dash',
+            //     'email' => ['required', Rule::unique('users')->ignore($this->user)]
+            // ],
+            'code' => ['required', Rule::unique('table', 'code')->ignore($table->id)],
+            // 'code' => [
+            //     'required',
+            //     Rule::unique('table', 'code')->ignore($this->table)
+            // ],
             'name' => [
                 'required',
                 'min:4',
                 'max:255',
                 'string',
-                'unique:table,name'
+                Rule::unique('table')->ignore($this->table)
             ]
         ];
     }
@@ -49,5 +58,9 @@ class TableRequest extends FormRequest
             'name.unique' => 'The table :attribute has already been taken',
             'code.alpha_dash' => 'The table :attribute must only contain letters, numbers, dashes and underscores.',
         ];
+    }
+    protected function formatErrors(Validator $validator)
+    {
+        return $validator->errors()->all();
     }
 }

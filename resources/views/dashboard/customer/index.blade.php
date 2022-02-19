@@ -17,8 +17,12 @@
                             <i class="icon fa fa-tasks tip" data-placement="left" title="actions"></i>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ route('setting.table.create') }}" id="add_table"><i class="nav-icon fa fa-plus"></i> {{ __('lang.add_table') }}</a>
-                            <a class="dropdown-item delete_categories_checked"><i class="nav-icon fa fa-trash"></i> {{ __('lang.delete_table') }}</a>
+                            <a class="dropdown-item add_customer" href="{{ route('customer.add') }}"><i class="nav-icon fa fa-plus"></i> {{ __('lang.add_customer') }}</a>
+                            @if(Auth::user()->hasRole(['supper-admin', 'admin']))
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item delete_customers_checked"><i class="nav-icon fa fa-trash"></i> {{ __('lang.delete_customer') }}</a>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>
@@ -46,16 +50,17 @@
             <div class="row">
                 <div class="col-12 col-lg-12">
                     <div class="role_permissions_table">
-                        <form id="list_table_form">
+                        <form id="list_products_table_form" method="post" class="custom_form" enctype="multipart/form-data" action="{{ route('product.actions') }}">
                             @csrf
-                            <table class="table_list_items table table-bordered custom_table" id="list_table">
+                            <table class="table_list_items table table-bordered custom_table" id="customer_table">
                                 <thead>
                                     <th style="width: 2%">
                                         <input type="checkbox" class="checkbox checkth" name="check" id="check_all">
                                     </th>
-                                    <th style="width: 10%">Code</th>
-                                    <th style="width: 80%">Name</th>
-                                    <th style="width: 5%">Actions</th>
+                                    <th style="width: 60%">{{ __('lang.full_name') }}</th>
+                                    <th style="width: 25%">{{ __('lang.phone') }}</th>
+                                    <th style="width: 10%">{{ __('lang.gender') }}</th>
+                                    <th style="width: 5%">{{ __('lang.actions') }}</th>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -77,32 +82,42 @@
                 'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
             }
         });
-        $('#list_table').DataTable({
+        table = $('#customer_table').DataTable({
             processing:true,
             info:true,
-            ajax:"{{ route('setting.table_list') }}",
-            "pageLength":10,
+            ajax:"{{ route('customer.list') }}",
+            "pageLength":5,
             "aLengthMenu":[[5,10,25,50,-1],[5,10,25,50,"All"]],
+            createdRow: function (row, data, index) {
+                row.id = data.id;
+                row.className = "customer_link";
+                return row;
+            },
             columns:[
-                {data:null, orderable:false, searchable:false,
+                {data: null,orderable:false, searchable:false,
                     "render": function (data, type, row, meta) {
                         return checkbox(row.id);
-                    }   
+                    }
                 },
-                {data:'code', name:'code'},
                 {data:'name', name:'name'},
+                {data:'phone', name:'phone'},
+                {data:'gender', name:'gender'},
                 {data:'actions', name:'actions', orderable:false, searchable:false},
             ]
         });
+        
 
-        // delete role
-        $(document).on('click','.delete_table', function (e) {
+        
+
+
+        // delete product
+        $(document).on('click','.delete_product', function (e) {
             e.preventDefault();
-            var table_id = $(this).attr('data-id');
+            var product_id = $(this).attr('data-id');
 
             Swal.fire({
                 title: 'Are you sure ?',
-                html: "<p class='text-danger'>You want to <b>delete</b> this table!</p>",
+                html: "You want to <b>delete</b> this product!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -113,9 +128,9 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'GET',
-                        url: "{{ route('setting.table.delete') }}",
+                        url: "{{ route('product.delete') }}",
                         data: {
-                            table_id: table_id
+                            product_id: product_id
                         },
                         success: function(response) {
                             if (response.success == 1) {
@@ -135,7 +150,7 @@
                                     animation: true,
                                     title: response.msg
                                 }).then((result) => {
-                                    $('#list_table').DataTable().ajax.reload(null, false);
+                                    $('#customer_table').DataTable().ajax.reload(null, false);
                                 });
                             }
                             if (response.success == 0) {
@@ -155,7 +170,7 @@
                                     animation: true,
                                     title: response.msg
                                 }).then((result) => {
-                                    $('#list_table').DataTable().ajax.reload(null, false);
+                                    $('#customer_table').DataTable().ajax.reload(null, false);
                                 });
                             }
                         }
@@ -163,11 +178,11 @@
                 }
             });
         });
-        $(document).on('click', '.delete_categories_checked', function(e) {
+        $(document).on('click', '.delete_products_checked', function(e) {
             e.preventDefault();
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You want to delete seleted categories!",
+                text: "You want to delete seleted products!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -178,8 +193,8 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'GET',
-                        url: "{{ route('categories.checked.delete') }}",
-                        data: $('#list_list_table_form').serialize(),
+                        url: "{{ route('products.checked.delete') }}",
+                        data: $('#list_products_table_form').serialize(),
                         dataType: 'json',
                         success: function(response) {
                             if (response.status) {
@@ -190,7 +205,7 @@
                                     button: "OK",
                                     allowOutsideClick: false,
                                 }).then((confirmed) => {
-                                    $('#list_table').DataTable().ajax.reload();
+                                    $('#customer_table').DataTable().ajax.reload();
                                 });
                             }
                         }
@@ -198,24 +213,37 @@
                 }
             });
         });
-
-
-        $(document).on('click', '.edit_table', function(e) {
-        e.preventDefault();
-        var table_id = $(this).attr('data-id');
-        $.ajax({
-            type: 'GET',
-            url: site.base_url + '/' + 'admin/setting/edit_table',
-            data: {table_id: table_id},
-            success: function(response) {
-                if (response.modal) {
-                    $('.modal_1').html(response.modal).show();
-                    $('#modal_edit_table').modal('show');
+        // modal add more gallery for product
+        $(document).on('click', '.add_customer', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: "{{ route('customer.add') }}",
+                success: function(response) {
+                    if (response.modal) {
+                        $('.modal_1').html(response.modal).show();
+                        $('#modal_add_customer').modal('show');
+                    }
                 }
-            }
+            });
         });
-    });
-        
+        $(document).on('click', '.product_link td:not(:first-child, :last-child)', function(e) {
+            e.preventDefault();
+            var product_id = $(this).closest('tr').attr('id');
+            $.ajax({
+                type: 'GET',
+                url: "{{ route('product.modal_view_product') }}",
+                data: {
+                    product_id: product_id
+                },
+                success: function(response) {
+                    if (response.modal) {
+                        $('.modal_1').html(response.modal).show();
+                        $('#modal_view_product').modal('show');
+                    }
+                }
+            });
+        });
     });
 </script>
 @endSection

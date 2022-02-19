@@ -1,46 +1,37 @@
-<!-- Modal -->
-<style>
-    .user_img_preview {
-        /* padding: 5px;
-        border: 1px solid #abb; */
-    }
-    .user_img_preview img {
-        max-width: 100px;
-        max-height: 100%;
-    }
-    .modal_1 .modal .modal-title {
-        color: #14a7b4 !important;
-    }
-</style>
-<div class="modal fade" id="modal_add_table" tabindex="-1" aria-labelledby="add_table" data-backdrop="static" aria-hidden="true">
+<div class="modal fade" id="modal_add_customer" tabindex="-1" aria-labelledby="modal_add_customerLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ $modal_title }}</h5>
+                <h5 class="modal-title" id="modal_add_customerLabel">{{ $modal_title }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{route('setting.table.store')}}" method="post" enctype="multipart/form-data" id="form">
+            <form action="{{route('customer.store')}}" method="post" enctype="multipart/form-data" id="form_add_customer">
                 @csrf
-                
-                
+                <span class="text-danger avatar_file_error"></span>
                 <div class="modal-body">
                     <div class="form-group">
-                        {!! Form::label('code',  __('lang.table_code') ) !!}
-                        <input type="text" name="code" id="code" class="form-control">
-                        <span class="text-danger error-text code_error"></span>
+                        <div class="product_img_preview"></div>
                     </div>
                     <div class="form-group">
-                        {!! Form::label('name',  __('lang.table_name') ) !!}
-                        <input type="text" name="name" id="name" class="form-control">
-                        <span class="text-danger error-text name_error"></span>
+                        <input type="text" name="name" class="form-control" >
+                        <span class="text-danger error-text product_image_error"></span>
+                    </div>
+                    <div class="form-group">
+                        
+                        <div class="product_gallery_dropify">
+                            <input type="file" class="dropify" data-height="110" name="image_gallery[]" id="image_gallery" multiple>
+                            @error('image_gallery')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn_logo add_table"><i class="fas fa-arrow-circle-right"></i> {{ __('lang.add_table') }}</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn_logo btn_change_product_gallery"><i class="fas fa-arrow-circle-right"></i> Update Avatar</button>
                 </div>      
             </form>
         </div>
@@ -48,7 +39,6 @@
 </div>
 <script>
     $(document).ready(function() {
-        var url = "{{ URL::to('/') }}";
         $('.dropify').dropify({
             messages: {
                 'default': 'Drag the file here',
@@ -63,9 +53,14 @@
             }
          });
 
-        $('#form').on('submit', function(e){
+         $('#info_mains').on('ifChecked', function () {
+            alert();
+        });
+
+         $('#form_add_customer').on('submit', function(e){
             e.preventDefault();
-            var $this_btn = $(this).find('.add_table');
+            var $this_btn = $(this).find('.btn_change_product_gallery');
+            var $id = $(this).find('#product_id').val();
             var form = this;
             $.ajax({
                 url:$(form).attr('action'),
@@ -86,8 +81,7 @@
                             $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
                         }); 
                         $.each(data.get_error, function(prefix,val){
-                            $(form).find('span.'+prefix+'_error').text(val[0]);
-                            console.log(prefix);
+                                $(form).find('span.'+prefix+'_error').text(val[0]);
                         });
                     }else{
                         $this_btn.closest('form')[0].reset();
@@ -108,7 +102,6 @@
                             title: data.get_error
                         }).then((result) => {
                             $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
-                            $('#list_table').DataTable().ajax.reload(null, false);
                         });
                     }
                 }

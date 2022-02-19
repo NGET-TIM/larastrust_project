@@ -266,7 +266,7 @@
                with font-awesome or any other icon font library -->
                 @if(Auth::user()->hasRole(['supper-admin', 'admin']))
                 <li class="nav-header">{{ __('lang.settings_control') }}</li>
-                <li class="nav-item <?= $url == 'profile' || $url == 'tables' || $url == 'list table' || $url == 'users' || $url == 'add user' || $url == 'edit user' || $url == 'list roles' || $url == 'add role' || $url == 'edit role permissions' || $url == 'add role permissions' || $url == 'list permissions' || $url == 'edit permission' ? 'menu-open active_border' : '' ?>">
+                <li class="nav-item <?= $url == 'profile' || $url == 'customers' || $url == 'add customer' || $url == 'edit customer' || $url == 'tables' || $url == 'list table' || $url == 'users' || $url == 'add user' || $url == 'edit user' || $url == 'list roles' || $url == 'add role' || $url == 'edit role permissions' || $url == 'add role permissions' || $url == 'list permissions' || $url == 'edit permission' ? 'menu-open active_border' : '' ?>">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
@@ -387,7 +387,24 @@
                             </ul>
                         </li>
                     </ul>
-
+                    {{-- customer --}}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item <?= $url == 'customers' || $url == 'add customer' || $url == 'edit customer' ? 'menu-open' : '' ?>">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>{{ __('lang.customers') }}</p>
+                                <i class="right fas fa-angle-left"></i>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('customer.index') }}" class="nav-link <?= $url == 'customers' ? 'active' : '' ?>">
+                                        <i class="nav-icon fa fa-list"></i>
+                                        <p>{{ __('lang.customers_list') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 @endif
                 <li class="nav-header">Back-End Control</li>
