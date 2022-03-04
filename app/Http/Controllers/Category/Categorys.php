@@ -6,6 +6,7 @@ use App\Models\Category\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Category\CategoryResquest;
 
 class Categorys extends Controller
@@ -80,16 +81,7 @@ class Categorys extends Controller
     
                     return $action;
                 })
-                // ->addColumn('checkbox', function($data){
-                //     $checkbox_content = '<div class="checkbox icheck-info">
-                //                             <input type="checkbox" name="category_id[]" value="'.$data->id.'" id="info'.$data->id.'">
-                //                             <label for="info'.$data->id.'" class="check_row"></label>
-                //                         </div>';
-                //     return $checkbox_content;
-                // })
-            
                 ->rawColumns(['actions','checkbox'])
-
                 ->make(true);
     }
     /**
@@ -116,6 +108,27 @@ class Categorys extends Controller
     public function update(Request $request, Category $model, $id)
     {
         $category = $model->findOrfail($id);
+        if($category->code != $request->code) {
+            $validator = Validator::make($request->all(),[
+                'code'  =>  'required|unique:categories,code',
+            ],[
+                'code.required'=>'Category code is required',
+                'code.unique'=>'Category code is already existing',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            } 
+        }else if($category->name != $request->name) {
+            $validator = Validator::make($request->all(),[
+                'name'  =>  'required|unique:categories,name',
+            ],[
+                'name.required'=>'Category name is required',
+                'name.unique'=>'Category name is already existing',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            } 
+        }
         $category_data = [
             'code' => $request->code,
             'name' => $request->name,

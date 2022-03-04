@@ -142,7 +142,7 @@ class Product extends Controller
                 ->addColumn('product_image', function($data){
                     if($data->image != "upload/images/product/ ") {
                         $product_image = '<div class="product_image">
-                                            <img src="'.url('').'/'.$data->image.'"/>
+                                            <img src="'.url('/'.$data->image).'"/>
                                         </div>';
                     } else {
                         $product_image = '<div class="product_image">

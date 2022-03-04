@@ -31,7 +31,7 @@ class Products extends Model
             foreach($galleries_images as $id) {
                 $product = $this::findOrfail($id);
                 # single image
-                if($product->image != '') {
+                if($product->image != 'upload/images/product/ ') {
                     unlink($product->image);
                 }
                 # gallery image
@@ -47,7 +47,7 @@ class Products extends Model
         if(! empty($single_image)) {
             $product = $this::findOrfail($single_image);
             # single image
-            if($product->image != '') {
+            if($product->image != 'upload/images/product/ ') {
                 unlink($product->image);
             }
             # gallery image

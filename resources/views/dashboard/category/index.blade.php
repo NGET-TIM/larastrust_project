@@ -51,10 +51,7 @@
                             <table class="table table-bordered custom_table" id="category_table">
                                 <thead>
                                     <th style="width: 2%">
-                                        <div class="checkbox icheck-info parent_check">
-                                            <input type="checkbox" name="main_check" id="info_main">
-                                            <label class="info_main" for="info_main"></label>
-                                        </div>
+                                        <input type="checkbox" class="checkbox checkth" name="check" id="check_all">
                                     </th>
                                     <th style="width: 10%">Code</th>
                                     <th style="width: 80%">Name</th>

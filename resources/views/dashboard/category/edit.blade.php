@@ -18,6 +18,15 @@
         <div class="container-fluid pr-15 pl-15">
             <div class="row">
                 <div class="col-lg-12 col-12">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="smg_alert">
                         @if(Session::get('success'))
                         <div class="alert alert-success" role="alert">
@@ -43,6 +52,7 @@
                             @error('code')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
+                           
                         </div>
                         <div class="form-group">
                             <label for="name">Name <span class="star_required">*</span></label>

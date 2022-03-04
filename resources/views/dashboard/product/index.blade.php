@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="row">
                 <div class="col-12 col-lg-12">
                     <div class="role_permissions_table">
@@ -60,7 +60,7 @@
                                 <thead>
                                     <th style="width: 2%">
                                         <input type="checkbox" class="checkbox checkth" name="check" id="check_all">
-                                    </th>
+                                    </th>                                    
                                     <th style="width: 5%">Image</th>
                                     <th style="width: 10%">Code</th>
                                     <th style="width: 10%">ID</th>

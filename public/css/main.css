@@ -8,6 +8,13 @@
     color: #fff;
 }
 
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+    transition: none !important;
+    margin-left: 250px;
+}
+
 .custom_icon {
     padding-right: 5px;
     font-size: 12px;
@@ -19,7 +26,7 @@
 
 #loading {
     position: fixed;
-    background: #17a2b8eb;
+    background: #17a2b8f7;
     height: 100vh;
     width: 100%;
     z-index: 2000;

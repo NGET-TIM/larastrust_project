@@ -7,18 +7,20 @@ function is_numeric(mixed_var) {
         1)) && mixed_var !== '' && !isNaN(mixed_var);
 }
 
-function checkbox(data) {
-    // loadCheckBox();
+
+
+function loadCheckBox() {
     $("table input[type='checkbox']").iCheck({
         checkboxClass: 'icheckbox_square-green',
     });
-    return '<div class="text-center"><input class="checkbox multi-select" type="checkbox" name="item_id[]" value="' + data + '" /></div>';
 }
 
-function loadCheckBox() {
-    return $("table input[type='checkbox']").iCheck({
+function checkbox(id) {
+    $("table input[type='checkbox']").iCheck({
         checkboxClass: 'icheckbox_square-green',
     });
+    loadCheckBox();
+    return '<div class="text-center"><input class="checkbox multi-select" type="checkbox" name="item_id[]" value="' + id + '" /></div>';
 }
 
 function validateThemeColor(color) {
@@ -60,7 +62,7 @@ var count = 1;
 
 
 })(jQuery);
-$(() => {
+$(function() {
 
     $(document).ajaxStart(function() {
         $('#ajax_loading').show();
