@@ -2,6 +2,7 @@
 <?php
 
 return [
+    'site_name' => 'TIM Dev - ',
     'actions' => 'Actions',
     'home' => 'Home',
     'dashboard' => 'Dashboard',

@@ -40,7 +40,7 @@
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn_logo add_table"><i class="fas fa-arrow-circle-right"></i> {{ __('lang.add_table') }}</button>
+                    <button type="submit" class="btn btn-sm btn_logo update_table"><i class="fas fa-arrow-circle-right"></i> {{ __('lang.edit_table') }}</button>
                 </div>      
             </form>
         </div>
@@ -48,7 +48,6 @@
 </div>
 <script>
     $(document).ready(function() {
-        var url = "{{ URL::to('/') }}";
         $('.dropify').dropify({
             messages: {
                 'default': 'Drag the file here',
@@ -65,17 +64,17 @@
 
          $('#form').on('submit', function(e){
             e.preventDefault();
-            var $this_btn = $(this).find('.add_table');
+            var $this_btn = $(this).find('.update_table');
             var form = this;
             $(form).find('span.error-text').text('');
             $.ajax({
-                url:$(form).attr('action'),
-                method:$(form).attr('method'),
-                data:new FormData(form),
-                processData:false,
-                dataType:'json',
-                contentType:false,
-                beforeSend:function(){
+                url: $(form).attr('action'),
+                method: $(form).attr('method'),
+                data: new FormData(form),
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+                beforeSend: function(){
                     $this_btn.find('i').addClass('fa-spinner animate_icon').animate('2000', function() {
                         $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
                     });  
@@ -87,7 +86,6 @@
                         }); 
                         $.each(data.get_error, function(prefix,val){
                             $(form).find('span.'+prefix+'_error').text(val[0]);
-                            console.log(prefix);
                         });
                     }else{
                         $this_btn.closest('form')[0].reset();

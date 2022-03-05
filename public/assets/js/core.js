@@ -13,6 +13,9 @@ function loadCheckBox() {
     $("table input[type='checkbox']").iCheck({
         checkboxClass: 'icheckbox_square-green',
     });
+    $("input[type='checkbox']").iCheck({
+        checkboxClass: 'icheckbox_square-green',
+    });
 }
 
 function checkbox(id) {
@@ -63,7 +66,7 @@ var count = 1;
 
 })(jQuery);
 $(function() {
-
+    $('.table').addClass('table_list_items');
     $(document).ajaxStart(function() {
         $('#ajax_loading').show();
     }).ajaxStop(function() {
@@ -264,7 +267,7 @@ $(function() {
         e.preventDefault();
         $.ajax({
             type: 'GET',
-            url: site.base_url + '/' + 'admin/setting/create_table',
+            url: site.base_url + '/admin/setting/create_table',
             success: function(response) {
                 if (response.modal) {
                     $('.modal_1').html(response.modal).show();
@@ -273,5 +276,4 @@ $(function() {
             }
         });
     });
-
 });

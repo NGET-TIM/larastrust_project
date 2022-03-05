@@ -2,6 +2,7 @@
 <?php
 
 return [
+    'site_name' => 'TIM Dev - ',
     'welcome' => 'សួរស្ដី!',
     'products' => 'ផលិតផល',
     'standard' => 'ពណ៍ Standard',

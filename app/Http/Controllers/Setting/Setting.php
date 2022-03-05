@@ -85,11 +85,13 @@ class Setting extends Controller
     {
 
         $validator = Validator::make($request->all(),[
-            'code'=>'required',
-            'name'=>'required',
+            'code'=>'required|unique:table,code',
+            'name'=>'required|unique:table,name',
         ],[
-            'code.required'=>'Table is required',
+            'code.required'=>'Table Code is required',
+            'code.unique'=>'Table Code is already existing',
             'name.required'=>'Table name is required',
+            'name.unique'=>'Table Name is already existing',
         ]);
         if(!$validator->passes()){
             $data_error['error'] = 'fail';
@@ -149,42 +151,54 @@ class Setting extends Controller
             return response()->json($modal);
         }
     }
-    public function update_table(Request $request, TableModel $table)
+    public function update_table(Request $request)
     {
         if(request()->ajax()) {
-            $validator = Validator::make($request->all(),[
-                'code'  => ['min:3',
-                        'max:8',
-                        'alpha_dash',
-                        'unique:table,code',],
-                'name'  => ['min:3',
-                        'max:8',
-                        'unique:table,name',]
-            ],[
-                'code.required'=>'Table is required',
-                'name.required'=>'Table name is required',
-            ]);
-            if(!$validator->passes()){
-                $data_error['error'] = 'fail';
-                $data_error['get_error'] = $validator->errors()->toArray();
+            $table = DB::table('table')->where('id', $request->table_id)->first();
+            if($table->code != $request->code) {
+                $validator = Validator::make($request->all(),[
+                    'code'  => ['min:3',
+                            'max:8',
+                            'alpha_dash',
+                            'unique:table,code',]
+                ],[
+                    'code.required'=>'Table Code is required',
+                    'code.unique'=>'Table Code is is already existing',
+                ]);
+                if(!$validator->passes()){
+                    $data_error['error'] = 'fail';
+                    $data_error['get_error'] = $validator->errors()->toArray();
+                    return response()->json($data_error);
+                }
+            }
+            if($table->name != $request->name) {
+                $validator = Validator::make($request->all(),[
+                    'name'  => ['min:3',
+                            'max:8',
+                            'unique:table,name',]
+                ],[
+                    'name.required'=>'Table name is required',
+                    'name.unique'=>'Table Name is is already existing',
+                ]);
+                if(!$validator->passes()){
+                    $data_error['error'] = 'fail';
+                    $data_error['get_error'] = $validator->errors()->toArray();
+                    return response()->json($data_error);
+                }
+            }
+            $data = [
+                'code' => $request->code,
+                'name' => $request->name,
+            ];
+            if(DB::table('table')->where('id', $table->id)->update($data)) {
+                $data_error['error'] = 'success';
+                $data_error['get_error'] = 'Table updated successfully';
+                return response()->json($data_error);
+            } else {
+                $data_error['error'] = 'not success';
+                $data_error['get_error'] = 'Something went wrong!';
                 return response()->json($data_error);
             }
-            //  else {
-            //     $table_id = $request->table_id;
-            //     $data = [
-            //         'code' => $request->code,
-            //         'name' => $request->name,
-            //     ];
-            //     if(DB::table('table')->where('id',$table_id)->update($data)) {
-            //         $data_error['error'] = 'success';
-            //         $data_error['get_error'] = 'Table updated successfully';
-            //         return response()->json($data_error);
-            //     } else {
-            //         $data_error['error'] = 'not success';
-            //         $data_error['get_error'] = 'Something went wrong!';
-            //         return response()->json($data_error);
-            //     }
-            // }
         }
     }
     /**

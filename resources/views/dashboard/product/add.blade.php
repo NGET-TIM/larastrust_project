@@ -140,7 +140,7 @@
                         <div class="form-group">
                             <label for="image_gallery">
                                 <div class="checkbox icheck-info">
-                                    <input type="checkbox" name="check_gallery" id="info_main">
+                                    <input type="checkbox" class="checkbox checkth" value="1" name="check">
                                     <label class="info_main" for="info_main">Product Gallery ?</label>
                                 </div>
                             </label>

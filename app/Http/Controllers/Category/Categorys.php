@@ -162,25 +162,23 @@ class Categorys extends Controller
     # delete categories checked
     public function checked_delete(Request $request){
         if(request()->ajax()) {
-            // $query = $this->category_model::whereIn('id', $id)->delete();
-            $p_data = [];
-            if(!empty($request->post('category_id'))) {
-                $category_id = $request->post('category_id');
+            if(!empty($request->post('item_id'))) {
+                $category_id = $request->post('item_id');
                 $array_id = [];
                 foreach($category_id as $id) {
                     array_push($array_id, $id);
                 }
                 if(Category::whereIn('id', $array_id)->delete()) {
-                    $p_data['icon'] = 'success';
-                    $p_data['status'] = 'Categories deleted successfully';
-                    $p_data['status_text'] = 'Categories selected has been removed';
-                    return response()->json($p_data);
+                    $data['icon'] = 'success';
+                    $data['status'] = 'Categories deleted successfully';
+                    $data['status_text'] = 'Categories selected has been removed';
+                    return response()->json($data);
                 }
             } else {
-                $p_data['icon'] = 'warning';
-                $p_data['status'] = 'No selected';
-                $p_data['status_text'] = 'Please selected atleast any rows';
-                return response()->json($p_data);
+                $data['icon'] = 'warning';
+                $data['status'] = 'No selected';
+                $data['status_text'] = 'Please selected atleast any rows';
+                return response()->json($data);
             }
         }
     } 

@@ -87,7 +87,6 @@
                         }); 
                         $.each(data.get_error, function(prefix,val){
                             $(form).find('span.'+prefix+'_error').text(val[0]);
-                            console.log(prefix);
                         });
                     }else{
                         $this_btn.closest('form')[0].reset();
