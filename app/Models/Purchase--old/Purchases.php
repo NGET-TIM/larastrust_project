@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Models\Purchase;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Purchases extends Model
+class Purchases_old extends Model
 {
     use HasFactory;
+
     protected $table = 'purchases';
     protected $fillable = [
         'reference_no',

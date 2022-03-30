@@ -29,7 +29,7 @@ class Product extends Controller
         return view('dashboard.product.index', $p_data);
     }
     public function product_list() {
-        
+
     }
     # add
     public function add() {
@@ -57,8 +57,8 @@ class Product extends Controller
             foreach($request->file('image_gallery') as $file)
             {
                 $name = time().rand(1,100).'.'.$file->extension();
-                $file->move(public_path('upload/images/product/gallery'), $name);  
-                $multiple_image[] = $name;  
+                $file->move(public_path('upload/images/product/gallery'), $name);
+                $multiple_image[] = $name;
             }
         }
         $product_id = Helper::IDGenerator($this->product_model, 'product_id', 4, 'PRO'); /** Generate id */
@@ -88,7 +88,7 @@ class Product extends Controller
             }
             DB::table('product_photos')->insert($gallery_data);
             return back()->with('success', 'product added successfully');
-        } 
+        }
         else {
             return back()->with('fail', 'Something went wrong');
         }
@@ -97,13 +97,13 @@ class Product extends Controller
     # product list
     public function show() {
         if(Auth::user()->hasRole(['supper-admin', 'admin'])) {
-            $product_list = $this->product_model::join('categories', 'categories.id', '=', 'products.category_id')
+            $product_list = $this->product_model::join('categories', 'categories.id', '=', 'products.category_id', 'left')
                             ->join('users', 'users.id', '=', 'products.created_by')
                             ->orderBy('products.name', 'asc')
                             ->get(['products.*','categories.name AS category_name', 'users.id AS user_id', 'users.name AS created_by']);
         }
         if(Auth::user()->hasRole(['user', 'user-staff'])) {
-            $product_list = $this->product_model::join('categories', 'categories.id', '=', 'products.category_id')
+            $product_list = $this->product_model::join('categories', 'categories.id', '=', 'products.category_id', 'left')
                             ->where('created_by', Auth::user()->id)
                             ->orderBy('products.name', 'asc')
                             ->get(['products.*','categories.name AS category_name']);
@@ -116,11 +116,11 @@ class Product extends Controller
                     $link_3 = '<i class="fa fa-trash"></i> Delete';
                     if(Auth::user()->hasRole(['supper-admin', 'admin'])) {
                         $delete_link = '<a href="'.url('admin/product/'.$data->id.'/delete').'" class="dropdown-item delete_product" data-id="'.$data->id.'">' . $link_3 . '</a>';
-                    } 
+                    }
                     if(Auth::user()->hasRole(['user', 'user-staff'])) {
                         $delete_link = '';
                     }
-                        $action = 
+                    $action =
                         '<div class="text-center dropdown role_actions"><div class="btn-group dropleft text-left">'
                             . '<button class="btn btn-xs btn_logo dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
@@ -131,7 +131,7 @@ class Product extends Controller
                                 '.$delete_link.'
                             </div>
                         </div>';
-    
+
                     return $action;
                 })
                 // ->addColumn('checkbox', function($data){
@@ -149,7 +149,7 @@ class Product extends Controller
                                             <img src="'.asset('upload/images/product/main-logo.png').'"/>
                                         </div>';
                     }
-                    
+
                     return $product_image;
                 })
                 ->addColumn('created_at', function($data){
@@ -171,9 +171,9 @@ class Product extends Controller
                                         </div>';
                         return $created_by;
                     }
-                    
+
                 })
-            
+
                 ->rawColumns(['actions','checkbox', 'product_image', 'created_at', 'created_by'])
 
                 ->make(true);
@@ -212,12 +212,12 @@ class Product extends Controller
                 foreach($galleries as $gallery) {
                     unlink($gallery->image);
                 }
-                $file->move(public_path('upload/images/product/gallery'), $name);  
-                $multiple_image[] = $name;  
+                $file->move(public_path('upload/images/product/gallery'), $name);
+                $multiple_image[] = $name;
             }
         }
         $product_id = Helper::IDGenerator($this->product_model, 'product_id', 4, 'PRO'); /** Generate id */
-        
+
         $product_data->code             = $request->code;
         $product_data->name             = $request->name;
         $product_data->category_id      = $request->category_id;
@@ -247,7 +247,7 @@ class Product extends Controller
             }
             Session::flash('success', 'Product updated successfully');
             return redirect(route('product.index'));
-        } 
+        }
         else {
             return back()->with('fail', 'Something went wrong');
         }
@@ -296,8 +296,8 @@ class Product extends Controller
                 return response()->json($p_data);
             }
         }
-    } 
-    
+    }
+
     # modal add product gallery
     public function modal_add_gallery(Request $request) {
         if(request()->ajax()) {
@@ -342,7 +342,7 @@ class Product extends Controller
                     $file->move(public_path('upload/images/user'), $file_name);
                     $data_file = $file_name;
                 }
-                
+
                 $data = [
                     'avatar' => 'upload/images/user/'.$data_file,
                 ];
@@ -393,7 +393,7 @@ class Product extends Controller
         //         $this->data['status_text'] = 'Please selected atleast any rows';
         //         return response()->json($this->data);
         //     }
-            
+
         // }
     }
     public function generatePDF(Request $request)

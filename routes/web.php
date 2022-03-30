@@ -98,7 +98,7 @@ Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function() {
 
         # purchase
         Route::get('/purchase/add', [Purchase::class, 'create'])->name('purchase.create');
-        Route::get('/purchase/store', [Purchase::class, 'store'])->name('purchase.store');
+        Route::post('/purchase/store', [Purchase::class, 'store'])->name('purchase.store');
         Route::get('/purchase/suggestions', [Purchase::class, 'suggestions'])->name('purchase.suggestions');
 
 
@@ -122,11 +122,13 @@ Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function() {
         Route::get('/setting/get_table', [Setting::class, 'getTableById'])->name('setting.table.get_table');
         Route::get('/setting/delete_table', [Setting::class, 'deleteTable'])->name('setting.table.delete');
 
-        # customer 
+        # customer
         Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
         Route::get('/customer/show', [CustomerController::class, 'show'])->name('customer.list');
         Route::get('/customer/add', [CustomerController::class, 'create'])->name('customer.add');
         Route::post('/customer/store', [CustomerController::class, 'store'])->name('customer.store');
+
+
 });
 
 

@@ -84,4 +84,14 @@ return [
     'gender' => 'Gender',
     'phone' => 'Phone Number',
     'full_name' => 'Full Name',
+    'add_purchases' => 'Add Purchase',
+    'edit_purchases' => 'Edit Purchase',
+    'update_purchases' => 'Update Purchase',
+    'delete_purchases' => 'Delete Purchase',
+    'add_purchases' => 'Add Purchase',
+    'purchase_added' => 'Purchase Added Successfully',
+    'purchase_updated' => 'Purchase updated Successfully',
+    'purchase_deleted' => 'Purchase deleted Successfully',
+
+    'no_items' => 'No Items, <b>Please select items to order lists</b>'
 ];

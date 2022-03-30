@@ -33,20 +33,34 @@
             <div class="row">
                 <div class="col-lg-12 col-12">
                     <div class="smg_alert">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         @if(Session::get('success'))
                         <div class="alert alert-success" role="alert">
                             {{ Session::get('success') }}
                         </div>
                         @endif
+                        @if(Session::get('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {!! Session::get('error') !!}
+                        </div>
+                        @endif
                         @if(Session::get('fail'))
                         <div class="alert alert-danger" role="alert">
-                            {{ Session::get('fail') }}
+                            {!! Session::get('fail') !!}
                         </div>
                         @endif
                     </div>
                 </div>
             </div>
-            <form id="list_product_form" method="post" class="custom_form" enctype="multipart/form-data" action="{{ route('purchase.store') }}">
+            <form id="list_purchases_form" method="post" class="custom_form" enctype="multipart/form-data" action="{{ route('purchase.store') }}">
                 @csrf
                 <div class="row">
                     <div class="col-md-4">
@@ -125,6 +139,10 @@
                 <div class="row">
                     <div class="col-12 col-lg-12">
                         <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-sm" value="{{ __('lang.add_purchases') }}">
+                            <input type="submit" class="btn btn-primary btn-sm" name="submit_more
+                            " value="{{ __('lang.add_purchases') }}">
+                            <button type="submit" class="btn btn_logo btn-sm">Add Purchase</button>
                             <button type="submit" class="btn btn_logo btn-sm">Add Purchase</button>
                         </div>
                     </div>
@@ -196,6 +214,11 @@
 @section('script')
 <script>
     $(document).ready(function() {
+        @if(Session::get('success'))
+            localStorage.clear();
+            $("#poTable tbody").empty();
+            $("#poTable tfoot").empty();
+        @endif
         jQuery('#podate').datetimepicker({
             format:'Y/m/d H:i',
             theme:'dark',
