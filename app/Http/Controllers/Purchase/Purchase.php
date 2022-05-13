@@ -7,6 +7,7 @@ use App\Models\Purchase\Purchases;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Purchase\Purchase;
 
 class Purchase extends Controller
@@ -76,7 +77,8 @@ class Purchase extends Controller
             ]
         ];
         $this->data['url'] = 'add purchase';
-        // dd($this->data);
+        $this->data['sql'] = DB::select('select * from tim_products');
+        // dd($this->data['sql']);
         return view('dashboard.purchase.add', $this->data);
     }
 
@@ -88,7 +90,35 @@ class Purchase extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        
+        
+
+        $validator = Validator::make($request->all(),[
+            'date' => 'required',
+        ]);
+        if($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            $items = [];
+            $data = [
+                'reference_no' => $request->reference_no,
+            ];
+            # purchases items
+            $count = sizeof(($request->product_id ? $request->product_id : []));
+            for($i = 0; $i < $count; $i++) {
+                $items[] = [
+                    'product_id' => $request->product_id[$i],
+                ];
+            }
+            if(count($items) <= 0) {
+                return back()->with('error', __('lang.no_items'));
+            } else {
+                return back()->with('success', __('lang.purchase_added') .' - '.$count . ($count > 1 ? ' Items' : 'Item'));
+            }
+            
+            
+        }
     }
 
     /**

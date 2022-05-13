@@ -74,7 +74,12 @@ $(function() {
     });
     validateThemeColor(color);
     loadCheckBox();
-    $('.tip').tooltip();
+    $('.tip').tooltip({
+        trigger: 'hover',
+    });
+    $('[data-toggle="popover"]').popover({
+        container: 'body'
+    });
     $("#loading").fadeOut("slow");
     $(".sortable_rows").sortable({
         items: "> tr",
@@ -224,7 +229,7 @@ $(function() {
     // checkboxes.on('ifChanged', function(event){
     //     if(checkboxes.filter(':checked').length == 0) {
     //         checkAll.iCheck('uncheck');
-    //     } 
+    //     }
     //     if(checkboxes.filter(':checked').length == checkboxes.length) {
     //         checkAll.prop('checked', 'checked');
     //     }

@@ -18,9 +18,19 @@
         "lodash": "^4.17.19",
         "postcss": "^8.2.1",
         "postcss-import": "^12.0.1",
-        "tailwindcss": "^2.0.2"
+        "sass": "^1.51.0",
+        "sass-loader": "^12.6.0",
+        "tailwindcss": "^2.0.2",
+        "vue": "^3.2.33",
+        "vue-router": "^4.0.14",
+        "vue-template-compiler": "^2.6.14",
+        "vuex": "^4.0.2"
     },
     "dependencies": {
-        "flag-icon-css": "^4.1.7"
+        "@splidejs/splide": "^4.0.1",
+        "@splidejs/vue-splide": "^0.6.3",
+        "flag-icon-css": "^4.1.7",
+        "nprogress": "^0.2.0",
+        "vue-loader": "^17.0.0"
     }
 }

@@ -46,6 +46,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/jquery-ui/jquery-ui.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/bs-icon/bootstrap-icons.css') }}">
     @yield('style')
+
+    
 </head>
 <body>
     <div id="loading">
@@ -134,6 +136,7 @@
     <script src="<?php echo asset('assets/plugins/icheck-bootstrap/js/icheck.js') ?>"></script>
     <script src="<?php echo asset('assets/plugins/icheck-bootstrap/js/custom.min.js') ?>"></script>
     <script src="<?php echo asset('assets/js/core.js') ?>"></script>
+    
     <?php if($url == "add purchase") { ?>
         <script src="<?php echo asset('assets/js/purchase.js') ?>"></script>
     <?php } ?>
@@ -143,6 +146,8 @@
         $(function(){
 		    $('input[type=text]').attr('autocomplete','off');
 	    });
+
+        
     </script>
     @yield('script')
 </body>
