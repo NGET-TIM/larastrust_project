@@ -134,6 +134,8 @@ Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function() {
 
 
 });
+
+# Testing With VueJS 3
 //CATCH ALL ROUTES AND REDIRECT TO HOME
 // FrontEndController
 // Route::get('/', [FrontEndController::class, 'index']);
