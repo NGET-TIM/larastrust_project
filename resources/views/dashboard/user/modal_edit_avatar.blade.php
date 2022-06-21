@@ -27,15 +27,15 @@
                         <div class="user_img_preview"></div>
                     </div>
                     <div class="form-group">
-                        <input type="file" name="user_image" class="dropify" data-max-file-size="1M" data-default-file="{{ asset('').$user->avatar }}">
+                        <input type="file" name="user_image" class="dropify" data-max-file-size="1M" data-default-file="{{ asset('/'.$user->avatar) }}">
                         <span class="text-danger error-text user_image_error"></span>
                     </div>
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
                     <button type="submit" class="btn btn-sm btn_logo btn_update_avatar"><i class="fas fa-arrow-circle-right"></i> Update Avatar</button>
-                </div>      
+                </div>
             </form>
         </div>
     </div>
@@ -72,14 +72,14 @@
                 beforeSend:function(){
                     $this_btn.find('i').addClass('fa-spinner animate_icon').animate('2000', function() {
                         $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
-                    });  
+                    });
                     $(form).find('span.error-text').text('');
                 },
                 success:function(data){
                     if(data.error == 'fail'){
                         $this_btn.find('i').addClass('fa-spinner animate_icon').animate('2000', function() {
                             $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
-                        }); 
+                        });
                         $.each(data.get_error, function(prefix,val){
                                 $(form).find('span.'+prefix+'_error').text(val[0]);
                         });
@@ -103,12 +103,13 @@
                         }).then((result) => {
                             $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
                             load_user_avatar($id);
+                            $('#avatar_modal').modal('hide');
                         });
                     }
                 }
             });
         });
-        function load_user_avatar($id) { 
+        function load_user_avatar($id) {
             $.ajax({
                 type: 'GET',
                 url: "{{ route('avatar.after_change_avatar') }}",

@@ -159,37 +159,37 @@
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">{{ __('lang.select_theme') }}</span>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item btn_select_theme_color" id="style_standard">
+                <a class="dropdown-item btn_select_theme_color" id="style_standard">
                     <span class="float-right color_box standard_color text-sm"></span>
                     {{ __('lang.default') }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item btn_select_theme_color" id="style_purple">
+                <a class="dropdown-item btn_select_theme_color" id="style_purple">
                     <span class="float-right color_box purple_color text-sm"></span>
                     {{ __('lang.purple') }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item btn_select_theme_color" id="style_blue">
+                <a class="dropdown-item btn_select_theme_color" id="style_blue">
                     <span class="float-right color_box blue_color text-sm"></span>
                     {{ __('lang.blue') }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item btn_select_theme_color" id="style_pink">
+                <a class="dropdown-item btn_select_theme_color" id="style_pink">
                     <span class="float-right color_box pink_color text-sm"></span>
                     {{ __('lang.pink') }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item btn_select_theme_color" id="style_flat_red">
+                <a class="dropdown-item btn_select_theme_color" id="style_flat_red">
                     <span class="float-right color_box flat_red_color text-sm"></span>
                     {{ __('lang.flat_red') }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item btn_select_theme_color" id="style_green">
+                <a class="dropdown-item btn_select_theme_color" id="style_green">
                     <span class="float-right color_box green_color text-sm"></span>
                     {{ __('lang.green') }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item btn_select_theme_color" id="style_dark">
+                <a class="dropdown-item btn_select_theme_color" id="style_dark">
                     <span class="float-right color_box dark_color text-sm"></span>
                     {{ __('lang.dark') }}
                 </a>
@@ -266,7 +266,7 @@
                with font-awesome or any other icon font library -->
                 @if(Auth::user()->hasRole(['supper-admin', 'admin']))
                 <li class="nav-header">{{ __('lang.settings_control') }}</li>
-                <li class="nav-item <?= $url == 'profile' || $url == 'customers' || $url == 'add customer' || $url == 'edit customer' || $url == 'tables' || $url == 'list table' || $url == 'users' || $url == 'add user' || $url == 'edit user' || $url == 'list roles' || $url == 'add role' || $url == 'edit role permissions' || $url == 'add role permissions' || $url == 'list permissions' || $url == 'edit permission' ? 'menu-open active_border' : '' ?>">
+                <li class="nav-item <?= $url == __('lang.system_settings') || $url == 'profile' || $url == 'customers' || $url == 'add customer' || $url == 'edit customer' || $url == 'tables' || $url == 'list table' || $url == 'users' || $url == 'add user' || $url == 'edit user' || $url == 'list roles' || $url == 'add role' || $url == 'edit role permissions' || $url == 'add role permissions' || $url == 'list permissions' || $url == 'edit permission' ? 'menu-open active_border' : '' ?>">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
@@ -274,6 +274,33 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item <?= $url == __('lang.system_settings') || $url == 'add settings' || $url == 'edit settings' ? 'menu-open' : '' ?>">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cog"></i>
+                                <p>{{__('lang.system_setting')}}</p>
+                                <i class="right fas fa-angle-left"></i>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('setting.index') }}" class="nav-link <?= $url == __('lang.system_settings') || $url == 'edit system settings' ? 'active' : '' ?>">
+                                        <i class="nav-icon fa fa-list"></i>
+                                        <p>{{__('lang.system_setting')}}</p>
+                                    </a>
+                                </li>
+                                @if(Auth::user()->hasRole(['supperadmin', 'admin']))
+                                <li class="nav-item">
+                                    <a href="{{ route('setting.update') }}" class="nav-link <?= $url == 'update setting' ? 'active' : '' ?>">
+                                        <i class="nav-icon fas fa-plus"></i>
+                                        <p>{{ __('lang.update_setting') }}</p>
+                                    </a>
+                                </li>
+                                @endif
+                            </ul>
+                        </li>
+                    </ul>
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item <?= $url == 'list roles' || $url == 'add role' || $url == 'edit role permissions' || $url == 'add role permissions' ? 'menu-open' : '' ?>">
@@ -471,7 +498,7 @@
                         @endif
                     </ul>
                 </li>
-                
+
                 {{-- category --}}
                 <li class="nav-item <?= $url == 'categories' || $url == 'add category' || $url == 'edit category' ? 'menu-open active_border' : '' ?>">
                     <a href="#" class="nav-link">

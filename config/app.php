@@ -181,7 +181,7 @@ return [
         # Format money
         App\Providers\BladeServiceProvider::class,
 
-        # Excel 
+        # Excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
         # PDF
         Barryvdh\DomPDF\ServiceProvider::class,
@@ -240,6 +240,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'tim' => App\Helpers\Helper::class,
+        'NT' => App\Libraries\NT::class,
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 

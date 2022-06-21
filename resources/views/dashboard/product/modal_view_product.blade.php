@@ -12,6 +12,7 @@
                 <input type="hidden" name="user_id" id="product_id" value="{{ $product->id }}">
                 <span class="text-danger avatar_file_error"></span>
                 <div class="modal-body">
+                    <div class="getLoading"></div>
                     <div class="form-group">
                         <div class="product_img_preview"></div>
                     </div>
@@ -20,7 +21,7 @@
                         <span class="text-danger error-text product_image_error"></span>
                     </div>
                     <div class="form-group">
-                        
+
                         <div class="product_gallery_dropify">
                             <input type="file" class="dropify" data-height="110" name="image_gallery[]" id="image_gallery" multiple>
                             @error('image_gallery')
@@ -29,15 +30,16 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
                     <button type="submit" class="btn btn-sm btn_logo btn_change_product_gallery"><i class="fas fa-arrow-circle-right"></i> Update Avatar</button>
-                </div>      
+                </div>
             </form>
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         $('.dropify').dropify({
@@ -73,14 +75,14 @@
                 beforeSend:function(){
                     $this_btn.find('i').addClass('fa-spinner animate_icon').animate('2000', function() {
                         $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
-                    });  
+                    });
                     $(form).find('span.error-text').text('');
                 },
                 success:function(data){
                     if(data.error == 'fail'){
                         $this_btn.find('i').addClass('fa-spinner animate_icon').animate('2000', function() {
                             $this_btn.find('i').addClass('fa-arrow-circle-right').removeClass('fa-spinner animate_icon');
-                        }); 
+                        });
                         $.each(data.get_error, function(prefix,val){
                                 $(form).find('span.'+prefix+'_error').text(val[0]);
                         });

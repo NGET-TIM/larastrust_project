@@ -36,6 +36,7 @@
         },
         "files": [
             "app/Helpers/Helper.php",
+            "app/Libraries/NT.php",
             "config/TIM.php"
         ]
     },

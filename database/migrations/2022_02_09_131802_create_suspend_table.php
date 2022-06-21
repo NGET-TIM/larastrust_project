@@ -13,7 +13,7 @@ class CreateSuspendTable extends Migration
      */
     public function up()
     {
-        Schema::create('suspend', function (Blueprint $table) {
+        Schema::create('suspends', function (Blueprint $table) {
             $table->id();
             $table->string('reference_no');
             $table->string('customer_id');
@@ -31,6 +31,6 @@ class CreateSuspendTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suspend');
+        Schema::dropIfExists('suspends');
     }
 }

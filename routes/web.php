@@ -97,6 +97,8 @@ Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function() {
         Route::post('/category/update/{id}/', [Categorys::class, 'update']);
         Route::get('/category/checked_delete/', [Categorys::class, 'checked_delete'])->name('categories.checked.delete');
 
+        Route::get('/category/modal', [Categorys::class, 'modal'])->name('category.modal');
+
         # purchase
         Route::get('/purchase/add', [Purchase::class, 'create'])->name('purchase.create');
         Route::post('/purchase/store', [Purchase::class, 'store'])->name('purchase.store');
@@ -123,16 +125,23 @@ Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function() {
         Route::get('/setting/get_table', [Setting::class, 'getTableById'])->name('setting.table.get_table');
         Route::get('/setting/delete_table', [Setting::class, 'deleteTable'])->name('setting.table.delete');
 
+
+
+        Route::get('/setting', [Setting::class, 'index'])->name('setting.index');
+        // Route::get('/setting/create', [Setting::class, 'create'])->name('setting.create');
+        // Route::post('/setting/store', [Setting::class, 'store'])->name('setting.store');
+        Route::post('/setting/update', [Setting::class, 'store'])->name('setting.update');
+
+
         # customer
         Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
         Route::get('/customer/show', [CustomerController::class, 'show'])->name('customer.list');
         Route::get('/customer/add', [CustomerController::class, 'create'])->name('customer.add');
         Route::post('/customer/store', [CustomerController::class, 'store'])->name('customer.store');
 
-
-
-
-
+        Route::group(['prefix' => 'product/'], function() {
+            Route::get('list', [Product::class, 'text'])->name('test');
+        });
 });
 //CATCH ALL ROUTES AND REDIRECT TO HOME
 // FrontEndController

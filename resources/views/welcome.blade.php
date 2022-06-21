@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel 8 - VueJS 3</title>
-        <style>
-        </style>
+        <link rel="shortcut icon" href="{{ asset('assets/images/new.png') }}">
+        
         <link rel="stylesheet" href="<?= asset('assets/dist/css/adminlte.css')?>">
         <link rel="stylesheet" href="<?= asset('assets/css/frontEnd/frontEnd.css')?>">
         <!-- PWA  -->
@@ -18,8 +18,11 @@
     <body class="antialiased">
         <a tabindex="0" class="btn btn-lg btn-danger " id="myTooltip" role="button" data-placement="bottom" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="<b>And</b> here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
         <button type="button" class="btn btn-lg btn-danger " data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>
-        <div id="app">
-        </div>
+        <?= NT::payment_status("pending"); ?>
+        <?= $status ?>
+        <div id="app"></div>
+
+        
 
         <script src="<?= asset('assets/plugins/jquery/jquery.min.js')?>"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>

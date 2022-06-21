@@ -44,7 +44,7 @@ class Users extends Controller
                     $link_1 = '<i class="fa fa-file"></i> User Details';
                     $link_2 = '<i class="fa fa-edit"></i> Edit';
                     $link_3 = '<i class="fa fa-trash"></i> Delete';
-                    $action = 
+                    $action =
                         '<div class="text-center dropdown category_actions"><div class="btn-group dropleft text-left">'
                             . '<button class="btn btn-xs btn_logo dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
@@ -55,7 +55,7 @@ class Users extends Controller
                                 <a class="dropdown-item delete_user" data-id="'.$data->id.'">' . $link_3 . '</a>
                             </div>
                         </div>';
-    
+
                     return $action;
                 })
                 // ->addColumn('checkbox', function($data){
@@ -75,7 +75,7 @@ class Users extends Controller
                             </div>';
                     return $date;
                 })
-            
+
                 ->rawColumns(['actions','checkbox', 'role_label', 'date_time'])
 
                 ->make(true);
@@ -88,12 +88,12 @@ class Users extends Controller
             $u_data['icon'] = 'fas fa-plus';
             $u_data['roles'] = Role::all();
 
-            return view('dashboard.user.add', $u_data); 
+            return view('dashboard.user.add', $u_data);
         } else {
             return redirect()->route('dashboard')->with('fail', 'Your access is not authorization');
         }
     }
-    # store user 
+    # store user
     public function store(Request $request) {
         $user_avatar = [];
         $path = '';
@@ -137,19 +137,15 @@ class Users extends Controller
     # avatar modal
     public function avatar_modal(Request $request) {
         if(request()->ajax()) {
-            $modal = [];
-            $u_data = [];
-
             $user_id = $request->user_id;
-
-            // $u_data['url'] = 'Update Avatar';
             $u_data['modal_title'] = 'Update Avatar';
-            $u_data['user'] = User::where('id','=', $user_id)->first();
+            // $u_data['user'] = User::where('id','=', $user_id)->first();
+            $u_data['user'] = User::findOrFail($user_id);
+            $u_data['ok'] = "OK Bro";
 
             $modal = [
                 'modal' =>  view('dashboard.user.modal_edit_avatar', $u_data)->render(),
             ];
-
             return response()->json($modal);
         }
     }
@@ -180,7 +176,7 @@ class Users extends Controller
                 $file->move(public_path('upload/images/user'), $file_name);
                 $data_file = $file_name;
             }
-            
+
             $data = [
                 'avatar' => 'upload/images/user/'.$data_file,
             ];
@@ -203,7 +199,6 @@ class Users extends Controller
             $user = DB::table('users')->where('id', $id)->first();
             $user_data['user'] = 'User Avatar';
             $user_data['image'] = $user->avatar;
-            
             return response()->json($user_data);
         }
     }
@@ -226,7 +221,7 @@ class Users extends Controller
         $u_data['user_role'] = DB::table('role_user')->where('user_id', $user_id)->first();
         $u_data['user'] = User::findOrfail($user_id);
 
-        return view('dashboard.user.edit', $u_data); 
+        return view('dashboard.user.edit', $u_data);
     }
     # update user and role
     public function update(Request $request, $user_id) {
@@ -237,7 +232,7 @@ class Users extends Controller
             $file = $request->file('user_avatar');
             $file_name = time().'_'.$file->getClientOriginalName();
             if($user->avatar != '') {
-                unlink($user->avatar);
+                // unlink($user->avatar);
             }
             $file->move(public_path('upload/images/user'), $file_name);
             $user_avatar = $file_name;
@@ -268,9 +263,6 @@ class Users extends Controller
             'user_id' => $user->id,
             'user_type' => 'App\Models\User'
         ];
-        // $q = $user->update($user_data);
-        // $user->attachRole($request->user_role);
-        // event(new Registered($user));
         if($user->update($user_data)){
             if(DB::table('role_user')->where('user_id', $user_id)->delete()) {
                 DB::table('role_user')->insert($user_role);

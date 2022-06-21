@@ -20,6 +20,13 @@ class Setting extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function index() {
+        $this->data['url'] = __('lang.system_settings');
+        return view('dashboard.settings.index', $this->data);
+    }
+
+
     public function table_index()
     {
         $this->data['url'] = 'tables';

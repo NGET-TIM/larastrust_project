@@ -43,6 +43,8 @@
                 </div>
             </div>
 
+            <a class="btn btn-primary" href="{{ route('category.modal') }}" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i> Edit Category</a>
+
             <div class="row">
                 <div class="col-12 col-lg-12">
                     <div class="role_permissions_table">
@@ -81,13 +83,13 @@
             processing:true,
             info:true,
             ajax:"{{ route('category.list') }}",
-            "pageLength":5,
+            "pageLength":10,
             "aLengthMenu":[[5,10,25,50,-1],[5,10,25,50,"All"]],
             columns:[
                 {data:null, orderable:false, searchable:false,
                     "render": function (data, type, row, meta) {
                         return checkbox(row.id);
-                    }   
+                    }
                 },
                 {data:'code', name:'code'},
                 {data:'name', name:'name'},
@@ -108,7 +110,7 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 allowOutsideClick: false,
-                confirmButtonText: 'Yes, comfirm it!' 
+                confirmButtonText: 'Yes, comfirm it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -198,7 +200,7 @@
                 }
             });
         });
-        
+
     });
 </script>
 @endSection

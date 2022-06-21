@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\FrontEnd;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
 
 class FrontEndController extends Controller
 {
@@ -14,8 +15,13 @@ class FrontEndController extends Controller
      */
     public function index()
     {
-        
-        return view('welcome');
+        $this->data['status'] = $this->NT::payment_status("paid");
+        $this->data['helper'] = $this->tim->getStatusesList();
+        $this->data['bc'] = [
+            ['link' => URL::to('/'), 'page' => __('lang.front-end')],
+            ['link' => URL::to('/'), 'page' => __('lang.home')],
+        ];
+        return view('welcome', $this->data);
     }
 
     /**

@@ -3,7 +3,7 @@
         <div class="col-12">
             <h1>All Products</h1>
         </div>
-        <loading v-if="loading" />
+        <loading v-if="content_loading" />
 
         <div v-else class="col-3" v-for="product in products" :key="product.id">
             <div class="card product_content">
@@ -81,6 +81,7 @@ import axios from 'axios';
 import loading from '../loading.vue';
 import Modal from '../Products/Modal.vue';
 import BSmodal from '../Products/ProductModal';
+import useProducts from '../../composables/products';
 
 export default {
     components: {
@@ -94,13 +95,16 @@ export default {
     },
 
     data() {
+
+        const {products, getAllProducts, content_loading} = useProducts();
         return {
             url: 'http://127.0.0.1:8080/api/v1/admin',
-            products: [],
+            products,
+            getAllProducts,
             product: {},
             singleProduct: {},
             count: 0,
-            loading: false,
+            content_loading,
             showModal: false,
             modalLoading: false,
             show_bs_modal: false,
@@ -109,13 +113,13 @@ export default {
     },
 
     methods: {
-        async getAllProducts() {
-            this.loading = true;
-            await axios.get(`${this.url}/products`).then(res => {
-                this.loading = false;
-                this.products = res.data.data;
-            });
-        },
+        // async getAllProducts() {
+        //     this.loading = true;
+        //     await axios.get(`${this.url}/products`).then(res => {
+        //         this.loading = false;
+        //         this.products = res.data.data;
+        //     });
+        // },
         async quickDetails(product) {
             const id = product.id;
             this.modalLoading = true;

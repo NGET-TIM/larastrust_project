@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSuspendItemsTable extends Migration
+class CreateSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateSuspendItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('suspend_items', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('suspend_id');
-            $table->string('product_id');
-            $table->integer('quantity');
-            $table->double('sub_total');
+            $table->string('site_name', 100)->nullable();
+            $table->text('site_url')->nullable();
+            $table->string('site_fav_icon', 191)->nullable();
+            $table->string('admin_fav_icon', 191)->nullable();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateSuspendItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suspend_items');
+        Schema::dropIfExists('settings');
     }
 }

@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Category\Category;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\Category\CategoryResquest;
+use App\Http\Requests\Category\CategoryRequest;
 
 class Categorys extends Controller
 {
@@ -41,15 +43,11 @@ class Categorys extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryResquest $request)
+    public function store(CategoryRequest $request)
     {
-        $category_data = [
-            'code' => $request->code,
-            'name' => $request->name,
-        ];
-        if (Category::create($category_data)) {
+        if (Category::create($request->validated())) {
             return back()->with('success', 'Category added successfully');
-        } 
+        }
         else {
             return back()->with('fail', 'Something went wrong');
         }
@@ -68,7 +66,7 @@ class Categorys extends Controller
                 ->addColumn('actions', function($data) {
                     $link_1 = '<i class="fa fa-edit"></i> Edit Category';
                     $link_2 = '<i class="fa fa-trash"></i> Delete';
-                    $action = 
+                    $action =
                         '<div class="text-center dropdown role_actions"><div class="btn-group dropleft text-left">'
                             . '<button class="btn btn-xs btn_logo dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
@@ -78,7 +76,7 @@ class Categorys extends Controller
                                 <a href="'.url('admin/category/'.$data->id.'/delete').'" class="dropdown-item delete_category" data-id="'.$data->id.'">' . $link_2 . '</a>
                             </div>
                         </div>';
-    
+
                     return $action;
                 })
                 ->rawColumns(['actions','checkbox'])
@@ -105,6 +103,43 @@ class Categorys extends Controller
      * @param  \App\Models\Category  $model
      * @return \Illuminate\Http\Response
      */
+    public function update_old(Request $request, Category $model, $id)
+    {
+        $category = $model->findOrfail($id);
+        if($category->code != $request->code) {
+            $validator = Validator::make($request->all(),[
+                'code'  =>  'required|unique:categories,code',
+            ],[
+                'code.required'=>'Category code is required',
+                'code.unique'=>'Category code is already existing',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }else if($category->name != $request->name) {
+            $validator = Validator::make($request->all(),[
+                'name'  =>  'required|unique:categories,name',
+            ],[
+                'name.required'=>'Category name is required',
+                'name.unique'=>'Category name is already existing',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }
+        $category_data = [
+            'code' => $request->code,
+            'name' => $request->name,
+        ];
+        if ($category->update($category_data)) {
+            Session::flash('success', 'Category update successfully');
+            return redirect(route('category.index'));
+        }
+        else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
     public function update(Request $request, Category $model, $id)
     {
         $category = $model->findOrfail($id);
@@ -117,7 +152,7 @@ class Categorys extends Controller
             ]);
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
-            } 
+            }
         }else if($category->name != $request->name) {
             $validator = Validator::make($request->all(),[
                 'name'  =>  'required|unique:categories,name',
@@ -127,16 +162,12 @@ class Categorys extends Controller
             ]);
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
-            } 
+            }
         }
-        $category_data = [
-            'code' => $request->code,
-            'name' => $request->name,
-        ];
-        if ($category->update($category_data)) {
-            Session::flash('success', 'Category update successfully');
+        if ($category->update($request->all())) {
+            Session::flash('success', __('lang.Category update successfully'). ' ' . $request->name);
             return redirect(route('category.index'));
-        } 
+        }
         else {
             return back()->with('fail', 'Something went wrong');
         }
@@ -154,7 +185,7 @@ class Categorys extends Controller
         if ($category->destroy($id)) {
             Session::flash('success', 'Category delete successfully');
             return redirect(route('category.index'));
-        } 
+        }
         else {
             return back()->with('fail', 'Something went wrong');
         }
@@ -181,5 +212,11 @@ class Categorys extends Controller
                 return response()->json($data);
             }
         }
-    } 
+    }
+
+    public function modal() {
+
+        $modal['modal'] = view('dashboard.category.modal')->render();
+        return response()->json($modal);
+    }
 }

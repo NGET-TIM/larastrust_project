@@ -13,7 +13,7 @@ import ErrorPage404 from '../components/ErrorPage404.vue';
 
 const router = createRouter({
     history: createWebHistory(
-        '/site'),
+        '/front-end'),
     routes: [{
             path: "/",
             name: "Home",
@@ -21,12 +21,12 @@ const router = createRouter({
         },
         {
             path: "/categories",
-            name: "Categories",
+            name: "categories",
             component: CategoryComponent,
         },
         {
             path: '/product/:id/details',
-            name: "Product Details",
+            name: "product.details",
             component: ProductDetail,
         },
         // custom page 4o4

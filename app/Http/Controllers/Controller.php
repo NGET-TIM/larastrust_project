@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\NT;
 use App\Helpers\Helper;
 use App\Models\Product\Products;
 use App\Models\Category\Category;
@@ -19,12 +20,14 @@ class Controller extends BaseController
     protected $category_model;
     protected $data;
     protected $tim;
+    protected $NT;
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct()
     {
         $this->product_model = new Products();
         $this->category_model = new Category();
         $this->tim = new Helper();
+        $this->NT = new NT();
     }
     # languages
     public function switchLang($lang)

@@ -2,7 +2,7 @@
 <?php
 
 return [
-    'site_name' => 'TIM Dev - ',
+    'site_name' => 'Site Name',
     'actions' => 'Actions',
     'home' => 'Home',
     'dashboard' => 'Dashboard',
@@ -93,5 +93,15 @@ return [
     'purchase_updated' => 'Purchase updated Successfully',
     'purchase_deleted' => 'Purchase deleted Successfully',
 
-    'no_items' => 'No Items, <b>Please select items to order lists</b>'
+    'no_items' => 'No Items, <b>Please select items to order lists</b>',
+
+
+
+    'Category update successfully' => 'Category update successfully',
+
+
+    'system_settings' => 'System Settings',
+    'system_setting' => 'System Setting',
+    'system_setting_updated' => 'System Setting Updated Successfully',
+    'site_configuration' => 'Site Configuration',
 ];

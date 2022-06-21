@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="card-body">
                                     <span class="text-danger">@error('user_role'){{ $message }} @enderror</span>
-                                    @php 
+                                    @php
                                         $is_selected = '';
                                     @endphp
                                     @foreach($roles as $role)
@@ -118,8 +118,11 @@
                             </div>
                             {{-- user avatar --}}
                             <div class="card card-default">
-                                <div class="card-header">
+                                <div class="card-header custom_cart_header">
                                     <h3 class="card-title">User Avatar</h3>
+                                    <div class="user_image">
+                                        <img src="{{ asset('/'.$user->avatar) }}" class="user_avatar" alt="Cinque Terre">
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <input type="file" name="user_avatar" class="dropify" data-allowed-file-extensions="png jpeg jpg gif" data-height="100"/>

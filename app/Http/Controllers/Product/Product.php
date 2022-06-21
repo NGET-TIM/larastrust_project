@@ -120,17 +120,16 @@ class Product extends Controller
                     if(Auth::user()->hasRole(['user', 'user-staff'])) {
                         $delete_link = '';
                     }
-                        $action =
-                        '<div class="text-center dropdown role_actions"><div class="btn-group dropleft text-left">'
-                            . '<button class="btn btn-xs btn_logo dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Actions
-                                </button>
-                            <div class="dropdown-menu pull-right" role="menu">
-                                <a href="'.url('admin/product/'.$data->id.'/edit').'" class="dropdown-item edit_role" data-id="'.$data->id.'">' . $link_1 . '</a>
-                                <a class="dropdown-item add_product_gallery" data-id="'.$data->id.'">' . $link_2 . '</a>
-                                '.$delete_link.'
-                            </div>
-                        </div>';
+                        $action = '<div class="text-center dropdown role_actions"><div class="btn-group dropleft text-left">'
+                                    . '<button class="btn btn-xs btn_logo dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Actions
+                                        </button>
+                                    <div class="dropdown-menu pull-right" role="menu">
+                                        <a href="'.url('admin/product/'.$data->id.'/edit').'" class="dropdown-item edit_role" data-id="'.$data->id.'">' . $link_1 . '</a>
+                                        <a class="dropdown-item add_product_gallery" data-id="'.$data->id.'">' . $link_2 . '</a>
+                                        '.$delete_link.'
+                                    </div>
+                                </div>';
 
                     return $action;
                 })
