@@ -33,6 +33,9 @@ Route::get('admin/user/forgot-password', [PasswordResetLinkController::class, 'c
 Route::post('admin/user/access/forgot-password', [PasswordResetLinkController::class, 'store'])
                 ->middleware('guest')
                 ->name('password.email');
+Route::post('admin/user/go/forgot-password', [PasswordResetLinkController::class, 'postEmail'])
+                ->middleware('guest')
+                ->name('password.forgot_password');
 
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
                 ->middleware('guest')
