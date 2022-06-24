@@ -143,6 +143,10 @@ Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function() {
             Route::get('list', [Product::class, 'text'])->name('test');
         });
 });
+
+
+#Testing with GitHub
+# Testing With VueJS 3
 //CATCH ALL ROUTES AND REDIRECT TO HOME
 // FrontEndController
 // Route::get('/', [FrontEndController::class, 'index']);
